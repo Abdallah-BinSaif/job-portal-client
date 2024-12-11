@@ -1,14 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import Register from "../../assets/Lottie/registerLottie.json"
 import Lottie from "lottie-react";
 import {useForm} from "react-hook-form";
 import {Link} from "react-router-dom";
+import AuthContext from "../../auth/AuthContext.jsx";
+import GoogleLogin from "./GoogleLogin.jsx";
+
 const Registration = () => {
     const {register,
         handleSubmit,
         formState:{errors},
     } = useForm()
+    const {createUser} = useContext(AuthContext)
+
+
     return (
         <div className="hero bg-base-200 my-8">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -20,6 +26,11 @@ const Registration = () => {
 
                     <form onSubmit={handleSubmit(data => {
                         console.log(data)
+                        createUser(data.email, data.password)
+                            .then(res => console.log(res.user))
+                            .catch(err => {
+                                console.log(err.code)
+                            })
                     })} className="card-body">
                         <div className="form-control">
                             <label className="label">
@@ -65,7 +76,7 @@ const Registration = () => {
                             <p className="label-text-alt">Already have an account? <Link to={"/login"} className={"underline"}>Login</Link></p>
                         </label>
                     </form>
-
+                    <GoogleLogin></GoogleLogin>
                 </div>
             </div>
         </div>

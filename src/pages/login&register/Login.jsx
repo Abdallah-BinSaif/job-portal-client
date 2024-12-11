@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Lottie from "lottie-react";
 import login from "../../assets/Lottie/loginLottie.json";
 import {useForm} from "react-hook-form";
 import {Link} from "react-router-dom";
+import GoogleLogin from "./GoogleLogin.jsx";
+import AuthContext from "../../auth/AuthContext.jsx";
 
 const Login = () => {
 
@@ -10,6 +12,7 @@ const Login = () => {
         handleSubmit,
         formState:{errors},
     } = useForm()
+    const { signInUser } = useContext(AuthContext)
     return (
         <div className="hero bg-base-200 my-8">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -21,6 +24,13 @@ const Login = () => {
 
                     <form onSubmit={handleSubmit(data => {
                         console.log(data)
+                        signInUser(data.email, data.password)
+                            .then(result =>{
+                                console.log(result.user)
+                            })
+                            .catch(err =>{
+                                console.log(err.code)
+                            })
                     })} className="card-body">
                         <div className="form-control">
                             <label className="label">
@@ -57,6 +67,7 @@ const Login = () => {
                                 className={"underline"}>Register</Link></p>
                         </label>
                     </form>
+                    <GoogleLogin></GoogleLogin>
                 </div>
             </div>
         </div>
