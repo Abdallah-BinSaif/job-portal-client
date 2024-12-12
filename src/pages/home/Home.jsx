@@ -1,9 +1,12 @@
 import React from 'react';
+import Banner from "./Banner.jsx";
+import Categories from "./category/Categories.jsx";
 
 const Home = () => {
     return (
         <div>
-            Home.jsx
+            <Banner></Banner>
+            <Categories/>
         </div>
     );
 };
